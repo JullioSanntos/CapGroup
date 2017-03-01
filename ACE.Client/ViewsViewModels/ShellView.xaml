@@ -1,0 +1,51 @@
+﻿<Window x:Class="ACE.Client.ViewsViewModels.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ACE.Client.ViewsViewModels"
+        xmlns:model="clr-namespace:ACE.Client.Model;assembly=ACE.Client.Model"
+        mc:Ignorable="d"
+        Title="ShellView" Height="600" Width="800">
+    <Window.Resources>
+        <local:ShellViewModel x:Key="vm" />
+        <DataTemplate x:Key="CustomerTemplate" DataType="{x:Type model:Customer}" >
+            <Border Padding="2" BorderBrush="Blue" BorderThickness="1" >
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Vertical" Width="auto" Margin="0,0,2,0">
+                        <Label Content="Cust. Id" />
+                        <TextBlock Text="{Binding Key}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Width="auto" Margin="0,0,2,0">
+                        <Label Content="Name" />
+                        <TextBlock Text="{Binding Value.FullName}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource vm}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="23" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="CustomerSearchingPanel" Grid.Row="0" Grid.Column="0">
+            <TextBox Text="{Binding Model.CustomerSearchingValues, UpdateSourceTrigger=PropertyChanged, Delay=200}"  />
+        </Grid>
+        <ListBox x:Name="MatchingCustomers" ItemsSource="{Binding Model.Customers}" ItemTemplate="{StaticResource CustomerTemplate}" Grid.Row="1" Grid.Column="0" >
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+        <TabControl x:Name="CustomerDetails"  Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
+            
+        </TabControl>
+    </Grid>
+
+</Window>

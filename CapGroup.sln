@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACE.Client", "ACE.Client\ACE.Client.csproj", "{65B2F9D4-E72F-406E-9D6B-5B017E62952F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACE.Client.Model", "ACE.Client.Model\ACE.Client.Model.csproj", "{7DB31370-79D6-4857-B05C-FE4FEC7BEDDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACE.Client.Test", "ACE.Client.Test\ACE.Client.Test.csproj", "{E12177C5-BFC5-41B0-B12B-612A9E9107CF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65B2F9D4-E72F-406E-9D6B-5B017E62952F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65B2F9D4-E72F-406E-9D6B-5B017E62952F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65B2F9D4-E72F-406E-9D6B-5B017E62952F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65B2F9D4-E72F-406E-9D6B-5B017E62952F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DB31370-79D6-4857-B05C-FE4FEC7BEDDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DB31370-79D6-4857-B05C-FE4FEC7BEDDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DB31370-79D6-4857-B05C-FE4FEC7BEDDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DB31370-79D6-4857-B05C-FE4FEC7BEDDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E12177C5-BFC5-41B0-B12B-612A9E9107CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E12177C5-BFC5-41B0-B12B-612A9E9107CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E12177C5-BFC5-41B0-B12B-612A9E9107CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E12177C5-BFC5-41B0-B12B-612A9E9107CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
