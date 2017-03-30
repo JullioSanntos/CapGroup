@@ -40,16 +40,58 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BindableObject.cs" />
+    <Compile Include="Common\CompletedEventArgs.cs" />
+    <Compile Include="Common\IModelEntity.cs" />
+    <Compile Include="Common\INotifyDirtyData.cs" />
+    <Compile Include="Common\IPersist.cs" />
+    <Compile Include="Common\IUserMessage.cs" />
+    <Compile Include="Common\IValid.cs" />
+    <Compile Include="Common\ModelEntity.cs" />
+    <Compile Include="CodeGenerators\XAMLGenerator.cs" />
+    <Compile Include="InvestorAccount.cs" />
+    <Compile Include="Common\BindableObject.cs" />
     <Compile Include="ClientModel.cs" />
     <Compile Include="Customer.cs" />
-    <Compile Include="EntityBase.cs" />
-    <Compile Include="IEntityBase.cs" />
-    <Compile Include="IndexedObservableCollection.cs" />
-    <Compile Include="IRandomizerType.cs" />
+    <Compile Include="Helpers\CustomersCache.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Helpers\ICache.cs" />
+    <Compile Include="Common\IndexedObservableCollection.cs" />
+    <Compile Include="Helpers\IRandomizerType.cs" />
+    <Compile Include="Helpers\InvestorsAccountCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Randomizer.cs" />
-    <Compile Include="Syllable.cs" />
+    <Compile Include="Helpers\Randomizer.cs" />
+    <Compile Include="Helpers\Syllable.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ACE.Client.Common\ACE.Client.Common.csproj">
+      <Project>{a8950a6c-ebc0-4b67-b1cc-0ca8c7c867c6}</Project>
+      <Name>ACE.Client.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CodeGenerators\GeneratorTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GeneratorTemplate.txt</LastGenOutput>
+    </Content>
+    <Content Include="CodeGenerators\GeneratorTemplate.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GeneratorTemplate.tt</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

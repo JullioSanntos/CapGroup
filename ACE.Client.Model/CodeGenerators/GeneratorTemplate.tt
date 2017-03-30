@@ -1,0 +1,14 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="$(SolutionDir)\ACE.Client.Model\bin\Debug\ACE.Client.Model.dll" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="ACE.Client.Model" #>
+<#@ import namespace="ACE.Client.Model.CodeGenerators" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".txt" #>
+<# 
+            var target = new XAMLGenerator();
+            var model = new ClientModel();
+            target.Generate(model);
+#>

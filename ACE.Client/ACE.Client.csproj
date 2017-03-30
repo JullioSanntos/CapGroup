@@ -55,6 +55,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Infrastructure\BooleanToStringConverter.cs" />
+    <Compile Include="Infrastructure\CircularList.cs" />
+    <Compile Include="Infrastructure\DelegateCommand.cs" />
+    <Compile Include="Infrastructure\INavigation.cs" />
+    <Compile Include="Infrastructure\NavigationInstancesAttribute.cs" />
+    <Compile Include="Infrastructure\NavigationServices.cs" />
+    <Compile Include="Infrastructure\ViewModelBase.cs" />
+    <Compile Include="Infrastructure\ViewModelLocator.cs" />
+    <Compile Include="Infrastructure\BindableNavigationalObject.cs" />
+    <Compile Include="ViewsViewModels\CustomersView.xaml.cs">
+      <DependentUpon>CustomersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewsViewModels\CustomersViewModel.cs" />
+    <Compile Include="Infrastructure\ICanPersist.cs" />
+    <Compile Include="ViewsViewModels\InvestorAccountView.xaml.cs">
+      <DependentUpon>InvestorAccountView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewsViewModels\InvestorAccountViewModel.cs" />
     <Compile Include="ViewsViewModels\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
@@ -63,6 +81,22 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewsViewModels\ShellViewModel.cs" />
+    <Page Include="Resources\Customer.Resources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\InvestorAccount.Resources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ViewsViewModels\CustomersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewsViewModels\InvestorAccountView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ViewsViewModels\ShellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -100,6 +134,12 @@
       <Project>{7db31370-79d6-4857-b05c-fe4fec7bedde}</Project>
       <Name>ACE.Client.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="delete.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

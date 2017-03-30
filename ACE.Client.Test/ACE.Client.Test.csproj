@@ -52,10 +52,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Client.CodeGenerator\XAMLGeneratorTests.cs" />
     <Compile Include="Client.Model\ClientModelTests.cs" />
+    <Compile Include="Client.Model\CustomerTests.cs" />
+    <Compile Include="Client.Model\Extensions\ObjectExtensionsTests.cs" />
+    <Compile Include="Client\Infrastructure\CircularListTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ACE.Client.Common\ACE.Client.Common.csproj">
+      <Project>{a8950a6c-ebc0-4b67-b1cc-0ca8c7c867c6}</Project>
+      <Name>ACE.Client.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ACE.Client.Model\ACE.Client.Model.csproj">
       <Project>{7db31370-79d6-4857-b05c-fe4fec7bedde}</Project>
       <Name>ACE.Client.Model</Name>
@@ -65,9 +73,7 @@
       <Name>ACE.Client</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Client\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

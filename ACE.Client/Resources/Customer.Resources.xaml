@@ -1,0 +1,32 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr -namespace:ACE.Client.Resources" >
+   <DataTemplate x:Key="Customer.Detail.Panel" >
+      <StackPanel Orientation="Horizontal" >
+         <StackPanel Orientation="Horizontal" Margin="4, 2" >
+            <TextBlock Text="First Name:" Width="75" FontWeight="DemiBold" Foreground="Blue" />
+            <TextBox Text="{Binding EditingEntity.FirstName}" Width="80" />
+         </StackPanel>
+         <StackPanel Orientation="Horizontal" Margin="4, 2" >
+            <TextBlock Text="Last Name:" Width="70" FontWeight="DemiBold" Foreground="Blue" />
+            <TextBox Text="{Binding EditingEntity.LastName}" Width="80" />
+         </StackPanel>
+         <StackPanel Orientation="Horizontal" Margin="4, 2" >
+            <TextBlock Text="Tax Id Fmt:" Width="75" FontWeight="DemiBold" Foreground="Blue" />
+            <TextBox Text="{Binding EditingEntity.TaxIdFmt, Mode=OneWay}" Width="100" IsReadOnly="True" />
+         </StackPanel>
+      </StackPanel>
+   </DataTemplate>
+   <DataTemplate x:Key="Customer.Summary.Panel" >
+      <StackPanel Orientation="Horizontal" >
+         <StackPanel Orientation="Horizontal" Margin="4, 2" >
+            <TextBlock Text="Full Name:" Width="70" FontWeight="DemiBold" Foreground="Blue" />
+            <TextBox Text="{Binding EditingEntity.FullName, Mode=OneWay}" Width="100" IsReadOnly="True" />
+         </StackPanel>
+         <StackPanel Orientation="Horizontal" Margin="4, 2" >
+            <TextBlock Text="Phone Number:" Width="84" FontWeight="DemiBold" Foreground="Blue" />
+            <TextBox Text="{Binding EditingEntity.PhoneNumber}" Width="80" />
+         </StackPanel>
+      </StackPanel>
+   </DataTemplate>
+</ResourceDictionary>

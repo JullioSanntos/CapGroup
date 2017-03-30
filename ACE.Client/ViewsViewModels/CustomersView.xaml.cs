@@ -17,16 +17,14 @@ using ACE.Client.Infrastructure;
 namespace ACE.Client.ViewsViewModels
 {
     /// <summary>
-    /// Interaction logic for MainView.xaml
+    /// Interaction logic for CustomersView.xaml
     /// </summary>
-    public partial class ShellView : Window
+    [NavigationInstances(2)]
+    public partial class CustomersView : UserControl
     {
-        public ShellView()
+        public CustomersView()
         {
             InitializeComponent();
-            NavigationServices.Initialize(this.NavigationFrame);
-            NavigationServices.Register("CustomersView", typeof(CustomersView));
-            NavigationServices.Register("InvestorAccountView", typeof(InvestorAccountView));
         }
     }
 }

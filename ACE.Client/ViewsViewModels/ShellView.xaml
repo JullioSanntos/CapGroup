@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ACE.Client.ViewsViewModels"
+        xmlns:nav="clr-namespace:ACE.Client.Infrastructure"
         xmlns:model="clr-namespace:ACE.Client.Model;assembly=ACE.Client.Model"
+        xmlns:common="clr-namespace:ACE.Client.Model.Common;assembly=ACE.Client.Model"
         mc:Ignorable="d"
-        Title="ShellView" Height="600" Width="800">
+        Title="ShellView" Height="600" Width="1200">
     <Window.Resources>
         <local:ShellViewModel x:Key="vm" />
         <DataTemplate x:Key="CustomerTemplate" DataType="{x:Type model:Customer}" >
@@ -23,6 +25,28 @@
                 </StackPanel>
             </Border>
         </DataTemplate>
+        <DataTemplate x:Key="TabHeader" DataType="TabItem">
+            <DockPanel>
+                <Button DockPanel.Dock="Right" Margin="5,0,0,0" Padding="0" 
+                    Command="{x:Static nav:NavigationServices.CloseTabItemCommand}" >
+                    <Image Source="/delete.gif" Height="11" Width="11" />
+                </Button>
+                <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}, Path=Header}" />
+            </DockPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="EntityBaseTemplate"  >
+            <DockPanel  >
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Cancel" Width="50"  Margin="4,2" Command="{Binding DataContext.CancelCommand}"
+                        IsEnabled="{Binding DataContext.CanSave}" />
+
+                    <Button Content="Save" Width="60" Margin="4,2" Command="{Binding DataContext.SaveCommand}"
+                        IsEnabled="{Binding DataContext.CanCancel}" />
+
+                </StackPanel>
+                <ContentControl Content="{Binding }" />
+            </DockPanel>
+        </DataTemplate>
     </Window.Resources>
     <Grid DataContext="{StaticResource vm}">
         <Grid.RowDefinitions>
@@ -36,15 +60,21 @@
         <Grid x:Name="CustomerSearchingPanel" Grid.Row="0" Grid.Column="0">
             <TextBox Text="{Binding Model.CustomerSearchingValues, UpdateSourceTrigger=PropertyChanged, Delay=200}"  />
         </Grid>
-        <ListBox x:Name="MatchingCustomers" ItemsSource="{Binding Model.Customers}" ItemTemplate="{StaticResource CustomerTemplate}" Grid.Row="1" Grid.Column="0" >
+        <ListBox x:Name="MatchingCustomers" ItemsSource="{Binding Model.MatchingCustomers}" SelectedItem="{Binding Model.SelectedCustomer}"
+                 ItemTemplate="{StaticResource CustomerTemplate}" Grid.Row="1" Grid.Column="0" >
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
-        <TabControl x:Name="CustomerDetails"  Grid.Row="0" Grid.RowSpan="2" Grid.Column="1">
-            
+        
+        <TabControl x:Name="NavigationFrame"  Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" ContentTemplate="{StaticResource EntityBaseTemplate}" >
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="TabItem">
+                    <Setter Property="HeaderTemplate" Value="{StaticResource TabHeader}" />
+                </Style>
+            </TabControl.ItemContainerStyle>
         </TabControl>
     </Grid>
 

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ACE.Client.Text")]
+[assembly: AssemblyTitle("ACE.Client.Common")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Hewlett-Packard")]
-[assembly: AssemblyProduct("ACE.Client.Text")]
+[assembly: AssemblyProduct("ACE.Client.Common")]
 [assembly: AssemblyCopyright("Copyright © Hewlett-Packard 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ad668ee0-3440-4f46-a6db-c86f189c885f")]
+[assembly: Guid("a8950a6c-ebc0-4b67-b1cc-0ca8c7c867c6")]
 
 // Version information for an assembly consists of the following four values:
 //

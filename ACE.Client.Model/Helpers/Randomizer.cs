@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ACE.Client.Model
+namespace ACE.Client.Model.Helpers
 {
     public class Randomizer 
     {

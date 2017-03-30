@@ -1,4 +1,4 @@
-﻿namespace ACE.Client.Model
+﻿namespace ACE.Client.Model.Helpers
 {
     public interface IRandomizerType
     {

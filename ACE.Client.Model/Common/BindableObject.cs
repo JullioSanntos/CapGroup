@@ -2,15 +2,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
-namespace ACE.Client.Model
+namespace ACE.Client.Model.Common
 {
-    public abstract class BindableObject : INotifyPropertyChanged
+    public abstract class BindableObject : INotifyPropertyChanged, INotifyDirtyData
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        protected IDictionary<string, object> memberVariables = new Dictionary<string, object>();
+        protected IDictionary<string, PropertyLog> membersActivities = new Dictionary<string, PropertyLog>();
+
+        public bool IsDirty {
+            get {
+                var result = membersActivities.Values.Any(a => a.IsDirty == true);
+                return result;
+            }
+            set { }
+        }
+            
 
         /// <summary>
         /// Gets the value for <paramref name="propertyName"/>, or the default for the type, if this is the first retrieval.
@@ -23,16 +33,17 @@ namespace ACE.Client.Model
             if (string.IsNullOrWhiteSpace(propertyName))
             { throw new ArgumentException("propertyName"); }
 
-            object existingValue;
-            if (memberVariables.TryGetValue(propertyName, out existingValue))
+            PropertyLog existingLog;
+            if (membersActivities.TryGetValue(propertyName, out existingLog))
             {
-                return (T)existingValue; //this was a member variable we knew about
+                return (T)(existingLog.PropertyValue); //this was a member variable we knew about
             }
             else
             {
                 //this wasn't a member variable we knew about
-                //store the default for subsequent retrievals, and then return it                
-                memberVariables[propertyName] = defaultValue;
+                //store the default for subsequent retrievals, and then return it  
+                (existingLog = new PropertyLog(propertyName)).PropertyValues.Push(defaultValue);
+                membersActivities.Add(propertyName, existingLog);
                 return defaultValue;
             }
         }
@@ -59,12 +70,12 @@ namespace ACE.Client.Model
         /// <param name="raiseINPC">Raise <seealso cref="PropertyChanged"/> in the event the value is actually modified</param>
         /// <param name="propertyExpression">An expression which represents the name of the <see cref="INotifyPropertyChanged"/> property being changed</param>
         /// <returns>The updated value</returns>
-        protected virtual T Set<T>(T newValue, bool raiseINPC, Expression<Func<T>> propertyExpression)
+        protected virtual T Set<T>(T newValue, bool raiseINPC, bool setIsDirty, Expression<Func<T>> propertyExpression)
         {
             var expression = (MemberExpression)propertyExpression.Body;
             var propertyName = expression.Member.Name;
 
-            return Set(newValue, raiseINPC, propertyName);
+            return Set(newValue, raiseINPC, setIsDirty, propertyName);
         }
 
         /// <summary>
@@ -75,32 +86,38 @@ namespace ACE.Client.Model
         /// <param name="propertyName">The name of the <see cref="INotifyPropertyChanged"/> property being changed</param>
         /// <param name="raiseINPC">Raise <seealso cref="PropertyChanged"/> in the event the value is actually modified</param>
         /// <returns>The updated value</returns>
-        protected virtual T Set<T>(T newValue, bool raiseINPC = true, [CallerMemberName] string propertyName = null)
+        protected virtual T Set<T>(T newValue, bool raiseINPC = true, bool setIsDirty = true, [CallerMemberName] string propertyName = null)
         {
-            object existingValue;
-            if (memberVariables.TryGetValue(propertyName, out existingValue) == false)
+            PropertyLog propertyLog;
+            if (membersActivities.TryGetValue(propertyName, out propertyLog) == false)
             {
-                existingValue = default(T);
+                propertyLog = new PropertyLog(propertyName);
+                propertyLog.PropertyValues.Push(default(T));
+                membersActivities.Add(propertyName, propertyLog);
             }
 
             var valueUpdated = false;
 
-            if (Equals(existingValue, newValue) == false)
+            if (Equals(propertyLog.PropertyValue, newValue) == false)
             {
-                memberVariables[propertyName] = newValue;
+                var propLog = membersActivities[propertyName];
+                propLog.PropertyValues.Push(newValue);
                 valueUpdated = true;
+                if (!setIsDirty) ResetIsDirty(propLog);
             }
             //Check if the membervariables does not have this key, then add value with the existingvalue.
             //This is required for properties where the value is set as default value, it should be added to the membervaribles.
-            else if (!memberVariables.ContainsKey(propertyName))
+            else if (!membersActivities.ContainsKey(propertyName))
             {
-                memberVariables[propertyName] = existingValue;
+                membersActivities.Add(propertyName, propertyLog);
             }
 
             if (valueUpdated && raiseINPC)
             {
                 RaisePropertyChanged(propertyName);
             }
+
+            if (setIsDirty) RaisePropertyChanged(nameof(IsDirty));
 
             return newValue;
         }
@@ -163,6 +180,86 @@ namespace ACE.Client.Model
             {
                 (parent as ICollection<object>).Clear();
             }
+        }
+
+        public void Undo()
+        {
+            membersActivities.ToList().ForEach(pl => Undo(pl.Value) );
+            RaisePropertyChanged(nameof(IsDirty));
+        }
+
+        /// Reverts back to the initial value
+        public void Undo(string propertyName)
+        {
+            if (membersActivities?.Any(pl => pl.Key == propertyName) != true) return;
+            var propLog = membersActivities[propertyName];
+            Undo(propLog);
+            RaisePropertyChanged(propertyName);
+            RaisePropertyChanged(nameof(IsDirty));
+        }
+
+        /// <summary>
+        /// Reverts back to the initial value
+        /// </summary>
+        private void Undo(PropertyLog propLog)
+        {
+            if (propLog.PropertyValues.Count > 1)
+            {
+                var initialValue = propLog.InitialValue;
+                propLog.PropertyValues.Clear();
+                propLog.PropertyValues.Push(initialValue);
+                RaisePropertyChanged(propLog.PropertyName);
+            }
+        }
+
+        public bool GetIsDirty(string propertyName)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Clear all pending changes by adopting the latest value as the original one.
+        /// </summary>
+        public void ResetIsDirty()
+        {
+            membersActivities.Values.ToList().ForEach(pl => ResetIsDirty(pl));
+            RaisePropertyChanged(nameof(IsDirty));
+        }
+
+        /// <summary>
+        /// Clear all pending changes by adopting the latest value as the original one.
+        /// </summary>
+        public void ResetIsDirty(string propertyName)
+        {
+            var propLog = membersActivities[propertyName];
+            ResetIsDirty(propLog);
+            RaisePropertyChanged(nameof(IsDirty));
+        }
+
+        private void ResetIsDirty(PropertyLog propertyLog)
+        {
+            //save the latest Value
+            var currValue = propertyLog.PropertyValue;
+            //clear the stack
+            propertyLog.PropertyValues.Clear();
+            //save the latest value as initial
+            propertyLog.PropertyValues.Push(currValue);
+        }
+
+        protected class PropertyLog
+        {
+            public PropertyLog(string propertyName)
+            {
+                this.PropertyName = propertyName;
+            }
+
+            public string PropertyName { get; set; }
+
+            private Stack<object> _propertyValue;
+            public Stack<object> PropertyValues { get { return _propertyValue ?? (_propertyValue = new Stack<object>()); } }
+            public object PropertyValue { get { return PropertyValues.Peek(); } }
+            public object InitialValue { get { return PropertyValues.ToArray()[PropertyValues.Count() - 1]; } }
+            public bool IsDirty { get { return PropertyValues.Count > 1; } }
         }
     }
 }

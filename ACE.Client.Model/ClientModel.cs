@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using ACE.Client.Model.Common;
 
 namespace ACE.Client.Model
 {
@@ -12,9 +13,13 @@ namespace ACE.Client.Model
         #region Singleton
         private static ClientModel _singleton;
 
-        public static ClientModel Singleton => _singleton ?? (_singleton = new ClientModel());
+        public  static ClientModel Singleton { 
+            get { return _singleton ?? (_singleton = new ClientModel()); }
+            private set { _singleton = value; }
+        }
 
-        private ClientModel() { }
+        public ClientModel() { Singleton = this; }
+
         #endregion
 
         #region Search
@@ -24,45 +29,36 @@ namespace ACE.Client.Model
             set
             {
                 Set<string>(value);
-                RaisePropertyChanged(nameof(Customers));
+                //MatchingCustomers = Customer.FindCustomers(value, Customer.CustomersCache.Cache).ToList();
+                MatchingCustomers = Customer.FindCustomers(value).ToList();
             }
         }
 
-        private IndexedObservableCollection<string, Customer> _customers;
-        public IndexedObservableCollection<string, Customer> Customers
+        public List<Customer> MatchingCustomers
         {
-            get
-            {
-                if (_customers == null) _customers = CustomersCache;
-                return _customers;
-            }
-
+            get { return Get<List<Customer>>(); }
+            set { Set(value); }
         }
 
-        #region mocks
-        private IndexedObservableCollection<string, Customer> _customersCache;
-        private IndexedObservableCollection<string, Customer> CustomersCache
+        public Customer SelectedCustomer
         {
-            get { return _customersCache ?? (_customersCache = CreateMockCustomers(5)); }
+            get { return Get<Customer>(); }
+            set { Set(value); }
         }
 
-        public IndexedObservableCollection<string, Customer> CreateMockCustomers(int numberOfCustomers)
-        {
-            var randomizer = new Randomizer();
-            var customers = new IndexedObservableCollection<string, Customer>();
-            var syllableRandomizer = new Syllable();
-            for (long i = 0; i < numberOfCustomers; i++)
-            {
-                var cust = new Customer() {CustomerId = long.Parse(randomizer.Next(Randomizer.NumericValues, 6)) };
-                cust.TaxId = randomizer.Next(Randomizer.NumericValues, 9);
-                cust.PhoneNumber = randomizer.Next(Randomizer.NumericValues, 10);
-                cust.FirstName = randomizer.Next(syllableRandomizer, 2, 4);
-                cust.LastName = randomizer.Next(syllableRandomizer, 2, 4);
-                customers.AddOrUpdate(cust);
-            }
-            return customers;
-        }
-        #endregion
+        //private IndexedObservableCollection<string, Customer> _customers;
+        //public IndexedObservableCollection<string, Customer> Customers
+        //{
+        //    get
+        //    {
+        //        if (_customers == null)
+        //        {
+        //            _customers = new IndexedObservableCollection<string, Customer>();
+        //            Customer.CustomersCache.Cache.ForEach(c => _customers.AddOrUpdate(c));
+        //        }
+        //        return _customers;
+        //    }
+        //}
 
         #endregion
 

@@ -1,16 +1,9 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IndexedObservableCollection.cs" company="FMR LLC">
-//   Copyright (C) FMR LLC.  All Rights Reserved.
-//   Fidelity Confidential Information.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace ACE.Client.Model
+namespace ACE.Client.Model.Common
 {
     /// <summary>
     /// <see cref="T:IndexedObservableCollection" /> provides faster indexed access to items in the collection 
@@ -79,7 +72,7 @@ namespace ACE.Client.Model
         /// Adds an Entity to this collection
         /// </summary>
         /// <param name="entity">Entity to be added</param>
-        public void Add(EntityBase<TKey, TValue> entity)
+        public void Add(ModelEntity<TKey, TValue> entity)
         {
             this.Add(entity.Key, entity.Value);
         }
@@ -128,7 +121,7 @@ namespace ACE.Client.Model
         /// </summary>
         /// <param name="entity">Enity to be removed. An exception will be thrown if key is not found</param>
         /// <returns>true if the element is successfully found and removed; otherwise, false</returns>
-        public bool TryRemove(EntityBase<TKey, TValue> entity)
+        public bool TryRemove(ModelEntity<TKey, TValue> entity)
         {
             return this.TryRemove(entity.Key);
         }
@@ -171,7 +164,7 @@ namespace ACE.Client.Model
         /// </summary>
         /// <param name="entity">key associated to the object to be Added or Updated</param>
         /// <returns>true if the element is added; otherwise, false</returns>
-        public bool AddOrUpdate(EntityBase<TKey, TValue> entity)
+        public bool AddOrUpdate(ModelEntity<TKey, TValue> entity)
         {
             return this.AddOrUpdate(entity.Key, entity.Value);
         }

@@ -1,7 +1,6 @@
 ﻿using System;
-using ACE.Client.Model;
 
-namespace ACE.Client
+namespace ACE.Client.Model.Helpers
 {
     public class Syllable : IRandomizerType
     {
@@ -14,7 +13,7 @@ namespace ACE.Client
         {
             string syllable = string.Empty;
             // first letter
-            var letterType = RandomUtil.Next(1, 2); // 1 is Consonant, 2 is vowel
+            var letterType = RandomUtil.Next(2); // 1 is Consonant, 0 is vowel
             for (int i = 0; i < 2; i++)
             {
                 if (letterType == 1) syllable += Randomizer.ConsonantValues[RandomUtil.Next(Randomizer.ConsonantValues.Count)];

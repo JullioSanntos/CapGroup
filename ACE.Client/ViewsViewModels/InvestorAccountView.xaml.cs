@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ACE.Client.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,21 +13,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ACE.Client.Infrastructure;
 
 namespace ACE.Client.ViewsViewModels
 {
     /// <summary>
-    /// Interaction logic for MainView.xaml
+    /// Interaction logic for InvestorAccountView.xaml
     /// </summary>
-    public partial class ShellView : Window
+    //[NavigationInstances(2)]
+    public partial class InvestorAccountView : UserControl
     {
-        public ShellView()
+        public InvestorAccountView()
         {
             InitializeComponent();
-            NavigationServices.Initialize(this.NavigationFrame);
-            NavigationServices.Register("CustomersView", typeof(CustomersView));
-            NavigationServices.Register("InvestorAccountView", typeof(InvestorAccountView));
         }
     }
 }
